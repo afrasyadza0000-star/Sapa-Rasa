@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SAPA RASA — Sarana Pengenalan Perasaan Murid</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@400;500;600&family=Gochi+Hand&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#4a3f6b;--sub:#7a6f99;--sheet:#fff;--field:#f3f0fb;--br:#8a3d2b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#fff3e0;--sub:#cfc6ee;--sheet:#2e2a52;--field:#3f3a6b}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+body{font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);background:linear-gradient(#8fd0ff,#cdeaff 45%,#eaf8ff 70%);background-attachment:fixed;overflow-x:hidden}
+h1,h2,h3{font-family:'Baloo 2','Fredoka',sans-serif;margin:0}
+.meadow{position:fixed;left:-20%;right:-20%;bottom:-18vh;height:42vh;background:radial-gradient(ellipse at 50% 0,#b9ebb0,#8fd88f 70%);border-radius:50% 50% 0 0;z-index:0}
+.cl{position:fixed;background:#fff;border-radius:60px;opacity:.9;z-index:0;animation:dr 30s linear infinite;filter:blur(.5px)}
+.cl:before,.cl:after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cl:before{width:50%;height:150%;left:12%;top:-70%}.cl:after{width:40%;height:120%;right:14%;top:-45%}
+@keyframes dr{from{transform:translateX(-30vw)}to{transform:translateX(130vw)}}
+.fl{position:fixed;bottom:6vh;font-size:26px;z-index:0;animation:sw 3s ease-in-out infinite;transform-origin:bottom}
+@keyframes sw{50%{transform:rotate(8deg)}}
+#app{position:relative;z-index:1;max-width:520px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding:12px 16px 0}
+.page{display:none;flex:1;flex-direction:column}
+.page.on{display:flex}
+.page.on .hero{animation:fd .6s both}.page.on .sheet{animation:up .6s cubic-bezier(.2,.9,.3,1.1) both}
+@keyframes fd{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+@keyframes up{from{opacity:0;transform:translateY(60px)}to{opacity:1;transform:none}}
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:6px 0 14px;text-align:center}
+.sheet{background:var(--sheet);border-radius:36px 36px 0 0;margin:0 -16px;padding:24px 20px calc(28px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 34px rgba(80,110,170,.25)}
+.logo{font-size:clamp(40px,12vw,58px);font-weight:800;line-height:.95;letter-spacing:3px;color:#fff;text-shadow:0 3px 0 #ff7eb6,0 6px 0 #e0509a,0 9px 0 #a63d8f,0 16px 18px rgba(70,50,140,.4)}
+.logo span{display:inline-block;animation:wob 2.4s ease-in-out infinite}
+.logo span:nth-child(2n){animation-delay:.3s}.logo span:nth-child(3n){animation-delay:.6s}
+@keyframes wob{50%{transform:translateY(-6px) rotate(-4deg)}}
+.mas{width:min(60vw,250px);animation:bob 2.6s ease-in-out infinite;filter:drop-shadow(0 16px 12px rgba(60,90,60,.3))}
+.mas.sm{width:min(38vw,150px)}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+.blink{animation:bl 4s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes bl{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.pill{background:var(--field);border-radius:30px;padding:7px 14px;font-weight:500;font-size:15px}
+.pill.hot{background:#ff9a52;color:#fff}
+h2.t{font-size:clamp(26px,7vw,32px);line-height:1.05}
+.p{color:var(--sub);font-size:16px;margin:8px 0 12px;line-height:1.4}
+input[type=text],textarea{width:100%;font:inherit;font-size:18px;color:var(--ink);padding:14px 18px;border-radius:22px;border:3px solid transparent;background:var(--field);outline:none;transition:.25s}
+input:focus,textarea:focus{border-color:#ffb98a;transform:scale(1.02)}
+textarea{resize:none;min-height:76px}
+label{font-weight:600;font-size:17px;display:block;margin:14px 4px 7px}
+.btn{display:flex;align-items:center;gap:12px;width:100%;font:600 19px 'Baloo 2','Fredoka',sans-serif;color:var(--ink);border:0;border-radius:40px;padding:10px 22px 10px 10px;margin-top:12px;cursor:pointer;transition:transform .2s,opacity .2s;box-shadow:0 7px 0 rgba(0,0,0,.1),0 12px 20px rgba(100,110,170,.22)}
+.btn i{font-style:normal;width:46px;height:46px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:22px;box-shadow:0 3px 8px rgba(0,0,0,.12)}
+.btn:hover:not(:disabled){transform:scale(1.05) translateY(-2px)}
+.btn:active:not(:disabled){transform:scale(.97) translateY(4px)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.b1{background:linear-gradient(#ffe45c,#ff9f1c)}.b2{background:linear-gradient(#5cf0b5,#19c9a0)}.b3{background:linear-gradient(#ff9ec0,#ff4d8d);color:#fff}.b4{background:linear-gradient(#c9a8ff,#8f5cff);color:#fff}
+.btn:focus-visible,.opt:focus-visible{outline:4px solid #ff9a52;outline-offset:3px}
+.prog{height:16px;border-radius:20px;background:rgba(255,255,255,.75);overflow:hidden;margin:4px 0 2px;box-shadow:inset 0 2px 4px rgba(80,110,170,.2)}
+.prog i{display:block;height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,#ffe27a,#ff9fb8,#b9a2ff);transition:width .6s cubic-bezier(.2,.9,.3,1.2)}
+.cnt{text-align:center;font-weight:600;color:#3d5a85;font-size:15px}
+.q{font-size:clamp(22px,6vw,27px);line-height:1.15;margin:0 0 14px;text-align:center}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{border:3px solid #fff;border-radius:26px;padding:12px 8px;font:600 16px 'Fredoka',sans-serif;color:#4a3f6b;cursor:pointer;transition:transform .2s;box-shadow:0 6px 0 rgba(0,0,0,.09),0 10px 16px rgba(100,110,170,.18);display:flex;flex-direction:column;align-items:center;gap:3px;line-height:1.15}
+.opt:hover{transform:scale(1.07) rotate(-1.5deg)}
+.opt:active,.opt.pick{transform:scale(.94);border-color:#ff9a52}
+.opt .em{font-size:42px;filter:drop-shadow(0 5px 3px rgba(0,0,0,.18));transition:.3s}
+.opt:hover .em{transform:scale(1.2) rotate(8deg)}
+.opt small{font-weight:500;color:#4a3f6b;font-size:13px}
+.o0{background:linear-gradient(#fff08a,#ffd23f)}.o1{background:linear-gradient(#a3dfff,#4cb8ff)}.o2{background:linear-gradient(#dcc6ff,#b085ff)}.o3{background:linear-gradient(#92f3c9,#3fd99d)}
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.row .opt{font-size:14px;padding:12px 4px}.row .opt .em{font-size:34px}
+.tc{border-radius:34px;padding:22px 18px 20px;text-align:center;position:relative;overflow:hidden;box-shadow:0 14px 30px rgba(80,90,130,.3);border:4px solid rgba(255,255,255,.7)}
+.tc .nm{font-family:'Baloo 2';font-weight:700;font-size:20px;color:var(--br)}
+.tc h2{font:800 clamp(28px,8vw,38px)/1.05 'Baloo 2',sans-serif;color:var(--br);margin:4px 0}
+.tc .mo{font:600 19px/1.35 'Fredoka',sans-serif;color:var(--br);margin:8px 8px 0}
+.sp{position:absolute;font-size:22px;animation:tw 2.5s ease-in-out infinite}
+@keyframes tw{50%{transform:scale(1.5) rotate(20deg);opacity:.4}}
+.tr{margin:10px 0}.tr b{display:flex;justify-content:space-between;font-size:15px;margin-bottom:4px}
+.bar{height:16px;border-radius:16px;background:var(--field);overflow:hidden}.bar i{display:block;height:100%;width:0;border-radius:16px;transition:width 1s cubic-bezier(.2,.9,.3,1.1)}
+.box{background:var(--field);border-left:8px solid var(--ac,#ff9f1c);border-radius:24px;padding:14px 16px;margin-top:12px;line-height:1.5;font-size:16px}
+.box b{display:block;margin-bottom:2px}
+#mus{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:9;width:52px;height:52px;border-radius:50%;border:3px solid #fff;background:linear-gradient(#e7dcff,#c8b5ff);font-size:24px;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.12),0 10px 16px rgba(100,110,170,.3);transition:.2s}
+#mus:hover{transform:scale(1.12)}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important}}
+</style>
+</head>
+<body>
+<button id="mus" aria-label="Nyalakan atau matikan musik">🎵</button>
+<div class="cl" style="width:120px;height:36px;top:9%;animation-delay:-5s"></div><div class="cl" style="width:90px;height:28px;top:22%;animation-duration:42s;animation-delay:-22s"></div><div class="cl" style="width:140px;height:40px;top:40%;animation-duration:36s;animation-delay:-12s"></div>
+<div class="meadow"></div>
+<span class="fl" style="left:6%">🌷</span><span class="fl" style="left:22%;animation-delay:.6s">🌼</span><span class="fl" style="right:20%;animation-delay:1.1s">🌸</span><span class="fl" style="right:5%;animation-delay:1.6s">🌷</span>
+<div id="app"></div>
+<script>
+const $=s=>document.querySelector(s);
+const MOODS={
+ sun:{t:'Si Matahari Terang',e:'☀️',m:'happy',c:['#ffe3ef','#ff7eb6'],bg:'linear-gradient(150deg,#ffe14d,#ff9f1c)',tx:'#5a2d00',col:'#ff9f1c',s:'Sangat Bersemangat',mo:'Hari ini aku bersinar dan siap berbagi cahaya!',k:'Menularkan semangat ke teman-teman',tp:'Ajak satu temanmu belajar bareng, energimu bisa jadi bensin untuk dua orang!',a:'Wah, energimu hari ini bersinar terang seperti matahari pagi! Kamu punya semangat yang bisa menular ke teman-teman di sekitarmu. Manfaatkan energi ini untuk mencoba hal baru, bertanya tanpa ragu, dan membantu temanmu yang butuh uluran tangan. Ingat, kamu pantas merasa bahagia, dan setiap langkah kecilmu hari ini berarti besar. Ayo, taklukkan harimu dengan senyuman!'},
+ calm:{t:'Si Danau Tenang',e:'🌿',m:'calm',c:['#fff7b8','#ffd23f'],bg:'linear-gradient(150deg,#3ee6a8,#12b5a5)',tx:'#033d35',col:'#12b5a5',s:'Fokus & Santai',mo:'Aku menerima pikiran dan perasaanku.',k:'Berpikir jernih dan fokus penuh',tp:'Pakai ketenanganmu untuk mengerjakan tugas yang butuh konsentrasi paling tinggi.',a:'Hatimu sedang setenang danau di pagi hari, dan itu hebat sekali. Dengan pikiran yang jernih, kamu bisa belajar dengan nyaman dan penuh perhatian. Tarik napas dalam-dalam, nikmati setiap pelajaran, dan percayalah pada ritmemu sendiri. Kamu tidak perlu terburu-buru, karena langkah yang tenang pun pasti sampai ke tujuan. Kamu sudah melakukan yang terbaik, dan itu cukup.'},
+ cloud:{t:'Si Awan Mendung',e:'☁️',m:'sad',c:['#fff6b8','#ffc94d'],bg:'linear-gradient(150deg,#5cc8ff,#4d6bff)',tx:'#ffffff',col:'#4d6bff',s:'Sedang Lelah / Sedih',mo:'Boleh istirahat, aku tidak sendirian.',k:'Peka dan penuh perasaan yang dalam',tp:'Mulai dari tugas paling kecil dulu, lalu ceritakan perasaanmu ke orang yang kamu percaya.',a:'Tidak apa-apa kalau hari ini terasa sedikit mendung. Awan pun butuh waktu untuk beristirahat, dan kamu juga boleh. Perasaanmu itu valid dan kamu tidak sendirian. Pelan-pelan saja ya, kerjakan satu hal kecil dalam satu waktu. Kalau ingin bercerita, guru dan teman-temanmu siap mendengarkan dengan hangat. Setelah mendung, selalu ada pelangi yang menunggumu.'},
+ storm:{t:'Si Badai Petir',e:'⛈️',m:'angry',c:['#fff6b8','#ffd23f'],bg:'linear-gradient(150deg,#c77dff,#ff4d8d)',tx:'#ffffff',col:'#ff4d8d',s:'Sedang Kesal / Stres',mo:'Badai pasti berlalu, aku kuat melewatinya.',k:'Punya tenaga besar dan hati yang jujur',tp:'Tarik napas panjang 3 kali, lalu bilang ke gurumu kalau butuh ditemani.',a:'Terima kasih sudah jujur dengan perasaanmu, itu sangat berani! Badai memang terasa berat, tetapi badai selalu berlalu. Coba tarik napas panjang lewat hidung, hembuskan pelan lewat mulut, lalu ulangi tiga kali. Kamu berhak merasa kesal dan kamu kuat untuk melewatinya. Jika butuh ditemani, bilang saja kepada gurumu ya. Kamu lebih tangguh dari yang kamu kira, dan kami ada di sini untukmu.'}};
+const LBL={sun:'☀️ Semangat',calm:'🌿 Ketenangan',cloud:'☁️ Kelelahan',storm:'⛈️ Ketegangan'};
+const Q=[
+ {q:'Kalau hari ini adalah cuaca, kamu merasa seperti apa?',m:'happy',o:[['☀️','Cerah','sun'],['🌥️','Mendung','cloud'],['⛈️','Badai','storm'],['⛅','Berawan','calm']]},
+ {q:'Pilih hewan yang mewakili energimu pagi ini!',m:'wow',o:[['🦁','Singa','sun','Semangat'],['🐢','Kura-kura','cloud','Pelan'],['🦉','Burung Hantu','calm','Fokus'],['🐱','Kucing','calm','Santai']]},
+ {q:'Kalau disuruh milih camilan sekarang, kamu mau apa?',m:'love',o:[['🍫','Cokelat','calm','Manis'],['🌶️','Keripik Pedas','storm','Emosi'],['🍲','Sup Hangat','cloud','Nyaman'],['🍦','Es Krim','sun','Segar']]},
+ {q:'Kalau kamu punya kekuatan sihir, kamu mau bisa apa?',m:'wow',o:[['⚡','Lari secepat kilat','sun'],['🛡️','Membuat perisai pelindung','calm'],['😴','Tidur di atas awan','cloud'],['🔥','Menembakkan api','storm']]},
+ {q:'Warna apa yang paling cocok dengan hatimu hari ini?',m:'calm',o:[['💛','Kuning cerah','sun'],['💙','Biru tenang','calm'],['🩶','Abu-abu pudar','cloud'],['❤️‍🔥','Merah membara','storm']]},
+ {q:'Lagu apa yang ingin kamu dengar sekarang?',m:'happy',o:[['🎉','Pop ceria','sun'],['🎧','Lo-fi santai','calm'],['🌧️','Lagu galau','cloud'],['🎸','Rock menggelegar','storm']]},
+ {q:'Kamu bisa pergi ke mana saja sekarang. Pilih satu!',m:'wow',o:[['🎡','Taman bermain','sun'],['📚','Kafe perpustakaan','calm'],['🛏️','Kamar & selimut','cloud'],['🏟️','Lapangan, lari sekencang mungkin','storm']]},
+ {q:'Minuman apa yang menggambarkan suasana hatimu?',m:'love',o:[['🍊','Jus jeruk segar','sun'],['🍵','Teh hangat','calm'],['💧','Air putih, lemas','cloud'],['🥤','Soda meletup','storm']]}];
+const BUDS=[['#ffe3ef','#ff9fc4'],['#fff6b8','#ffc94d'],['#e2fbee','#7fd9b0'],['#e3eeff','#8fb3ea'],['#eee4ff','#a98bf0']];
+let name='',ans=[],lab=[],qi=0;
+/* Tempel URL Web App Google Apps Script di antara tanda kutip (lihat panduan). Kosong = data tidak dikirim. */
+const APPS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbyGa1vEHFujJMSGb_fqtRt0fvfY27p7r_7ug5fG9ioZZwy8m59iBiouwTV00vQaruM/exec';
+function kirim(d){if(!APPS_SCRIPT_URL)return;try{fetch(APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(d)}).catch(()=>{})}catch(e){}}
+
+function mascot(m,c=BUDS[0],cls=''){
+ const id='g'+Math.random().toString(36).slice(2,7);
+ const mouth={happy:'<path d="M39 68 Q50 83 61 68Z" fill="#c4486b" stroke="#4a3f6b" stroke-width="2.5" stroke-linejoin="round"/>',
+ calm:'<path d="M42 69 Q50 75 58 69" fill="none" stroke="#4a3f6b" stroke-width="3" stroke-linecap="round"/>',
+ sad:'<path d="M41 74 Q50 65 59 74" fill="none" stroke="#4a3f6b" stroke-width="3" stroke-linecap="round"/><path d="M31 60q-4 8 0 10q4-2 0-10" fill="#7ec8ff"/>',
+ angry:'<path d="M41 73 Q50 64 59 73" fill="none" stroke="#4a3f6b" stroke-width="3" stroke-linecap="round"/><path d="M29 46l14 6M71 46l-14 6" stroke="#4a3f6b" stroke-width="4" stroke-linecap="round"/>',
+ wow:'<ellipse cx="50" cy="70" rx="6.5" ry="8.5" fill="#c4486b" stroke="#4a3f6b" stroke-width="2.5"/>',
+ love:'<path d="M41 67 Q50 81 59 67" fill="#c4486b" stroke="#4a3f6b" stroke-width="2.5" stroke-linejoin="round"/>'}[m];
+ const eye=x=>m==='love'?`<text x="${x}" y="59" font-size="16" text-anchor="middle">💖</text>`:
+  m==='calm'?`<path d="M${x-7} 55 Q${x} 61 ${x+7} 55" stroke="#4a3f6b" stroke-width="3.5" fill="none" stroke-linecap="round"/>`:
+  `<g class="blink"><ellipse cx="${x}" cy="54" rx="6" ry="${m==='wow'?9:7.5}" fill="#3b3158"/><circle cx="${x+2}" cy="51" r="2.5" fill="#fff"/><circle cx="${x-2}" cy="57" r="1.2" fill="#fff"/></g>`;
+ return `<svg class="mas ${cls}" viewBox="0 0 100 132" role="img" aria-label="Maskot Sapa si kuncup bunga"><defs>
+ <radialGradient id="${id}" cx=".35" cy=".28" r=".85"><stop offset="0" stop-color="#fff"/><stop offset=".22" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></radialGradient></defs>
+ <ellipse cx="50" cy="127" rx="26" ry="5" fill="rgba(40,80,40,.25)"/>
+ <path d="M50 92 Q45 110 50 126" stroke="#79c987" stroke-width="7" fill="none" stroke-linecap="round"/>
+ <path d="M48 112 Q28 100 18 109 Q32 122 48 112Z" fill="#8fdba0"/><path d="M52 108 Q72 96 83 105 Q69 119 52 108Z" fill="#7fd092"/>
+ <ellipse cx="22" cy="58" rx="15" ry="27" fill="url(#${id})" transform="rotate(-18 22 58)"/><ellipse cx="78" cy="58" rx="15" ry="27" fill="url(#${id})" transform="rotate(18 78 58)"/>
+ <ellipse cx="50" cy="56" rx="36" ry="38" fill="url(#${id})"/>
+ <ellipse cx="35" cy="34" rx="12" ry="6" fill="#fff" opacity=".6" transform="rotate(-25 35 34)"/>
+ <path d="M15 62 Q22 98 50 99 Q78 98 85 62 Q72 86 50 86 Q28 86 15 62Z" fill="${c[1]}" opacity=".55"/>
+ <ellipse cx="28" cy="67" rx="7" ry="4.5" fill="#ff8fb1" opacity=".7"/><ellipse cx="72" cy="67" rx="7" ry="4.5" fill="#ff8fb1" opacity=".7"/>
+ ${eye(36)}${eye(64)}${mouth}</svg>`}
+
+function go(html){const a=$('#app');a.innerHTML=html;a.querySelector('.page').classList.add('on');window.scrollTo({top:0,behavior:'smooth'})}
+const logo=()=>`<h1 class="logo" aria-label="SAPA RASA">${[...'SAPA RASA'].map(c=>c===' '?'<br>':`<span>${c}</span>`).join('')}</h1>`;
+
+function home(){
+ go(`<section class="page"><div class="hero">${logo()}${mascot('happy',BUDS[0])}</div>
+ <div class="sheet"><h2 class="t">Sarana Pengenalan Perasaan Murid</h2>
+ 
+ <label for="nm">Halo! Siapa namamu? 👋</label>
+ <input id="nm" type="text" maxlength="30" placeholder="Tulis nama siswa..." autocomplete="off" value="${esc(name)}">
+ <button class="btn b1" id="bi" disabled><i>🌞</i>Mulai Belajar (Check-in)</button>
+ <button class="btn b4" id="bo" disabled><i>🌙</i>Refleksi Akhir (Check-out)</button>
+ <div class="p" id="hn" style="text-align:center">Isi namamu dulu ya, biar tombolnya menyala ✨</div></div></section>`);
+ const i=$('#nm'),upd=()=>{name=i.value.trim();$('#bi').disabled=$('#bo').disabled=!name;$('#hn').style.opacity=name?0:1};
+ i.oninput=upd;upd();
+ $('#bi').onclick=()=>{startAudio();ans=[];lab=[];qi=0;quiz()};
+ $('#bo').onclick=()=>{startAudio();reflect()};
+}
+
+function quiz(){
+ const q=Q[qi],pct=qi/Q.length*100;
+ go(`<section class="page"><div class="prog"><i style="width:${pct}%"></i></div><div class="cnt">Pertanyaan ${qi+1} dari ${Q.length}</div>
+ <div class="hero">${mascot(q.m,BUDS[qi%5],'sm')}</div>
+ <div class="sheet"><h2 class="q">${q.q}</h2><div class="grid">
+ ${q.o.map((o,k)=>`<button class="opt o${k}" data-m="${o[2]}"><span class="em">${o[0]}</span>${o[1]}${o[3]?`<small>${o[3]}</small>`:''}</button>`).join('')}</div></div></section>`);
+ requestAnimationFrame(()=>{$('.prog i').style.width=pct+'%'});
+ document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{b.classList.add('pick');blip(660);ans.push(b.dataset.m);lab.push(b.textContent.trim());
+  setTimeout(()=>{qi++;qi<Q.length?quiz():result()},350)});
+}
+
+function result(){
+ const n={sun:0,calm:0,cloud:0,storm:0};ans.forEach(a=>n[a]++);
+ const order=['storm','cloud','sun','calm'];let best=order[0];order.forEach(k=>{if(n[k]>n[best])best=k});
+ const M=MOODS[best];jingle();const pc=k=>Math.round(n[k]/ans.length*100);
+ kirim({tipe:'checkin',nama:name,mood:M.t,fase:M.s,semangat:pc('sun'),tenang:pc('calm'),lelah:pc('cloud'),tegang:pc('storm'),jawaban:lab});
+ go(`<section class="page"><div class="hero" style="justify-content:flex-start;padding-top:50px"><div class="tc" style="background:${M.bg};--br:${M.tx};width:100%">
+ <span class="sp" style="top:12px;left:16px">✨</span><span class="sp" style="top:28px;right:18px;animation-delay:.6s">⭐</span><span class="sp" style="bottom:70px;left:12px;animation-delay:1.1s">💫</span>
+ <div class="nm">Mood Card ${esc(name)}</div>${mascot(M.m,M.c,'sm')}
+ <div class="nm">Tipe kamu hari ini:</div><h2>${M.e} ${M.t}</h2><div class="mo">“${M.mo}”</div></div></div>
+ <div class="sheet" style="--ac:${M.col}"><h3 style="font-size:22px;color:${M.col}">Fase ${M.s}</h3>
+ ${Object.keys(LBL).map(k=>`<div class="tr"><b><span>${LBL[k]}</span><span>${Math.round(n[k]/ans.length*100)}%</span></b><div class="bar"><i data-w="${Math.round(n[k]/ans.length*100)}" style="background:${MOODS[k].col}"></i></div></div>`).join('')}
+ <div class="box"><b>💪 Kekuatan supermu</b>${M.k}</div>
+ <div class="box"><b>💌 Pesan untukmu</b>${M.a}</div>
+ <div class="box"><b>🌱 Tips hari ini</b>${M.tp}</div>
+ <button class="btn b2" id="bk"><i>🏠</i>Kembali ke Beranda</button></div></section>`);
+ setTimeout(()=>document.querySelectorAll('.bar i').forEach(i=>i.style.width=i.dataset.w+'%'),300);
+ $('#bk').onclick=home;
+}
+
+function reflect(){
+ let feel='';
+ go(`<section class="page"><div class="hero">${mascot('love',BUDS[3],'sm')}</div><div class="sheet"><h2 class="t">Refleksi Akhir 🌙</h2>
+ <label for="r1">1. Satu kata perasaanmu setelah belajar hari ini:</label><input id="r1" type="text" maxlength="25" placeholder="Contoh: senang">
+ <label for="r2">2. Bagian paling asyik dari pelajaran tadi:</label><input id="r2" type="text" maxlength="80" placeholder="Ceritakan singkat...">
+ <label>3. Tingkat pemahamanmu:</label><div class="row">
+ <button class="opt o0" data-v="1"><span class="em">🤩</span>Sangat Paham</button><button class="opt o1" data-v="2"><span class="em">🤔</span>Lumayan</button><button class="opt o2" data-v="3"><span class="em">🤯</span>Masih Bingung</button></div>
+ <label for="r4">4. Masukan dan saran:</label><textarea id="r4" maxlength="200" placeholder="Boleh tulis apa saja untuk gurumu 💬"></textarea>
+ <button class="btn b3" id="bs" disabled><i>🚀</i>Kirim Refleksi</button></div></section>`);
+ const chk=()=>$('#bs').disabled=!($('#r1').value.trim()&&feel);
+ $('#r1').oninput=chk;
+ document.querySelectorAll('.row .opt').forEach(b=>b.onclick=()=>{document.querySelectorAll('.row .opt').forEach(x=>x.classList.remove('pick'));b.classList.add('pick');feel=b.dataset.v;blip(740);chk()});
+ $('#bs').onclick=()=>{kirim({tipe:'checkout',nama:name,kata:$('#r1').value,asyik:$('#r2').value,paham:{1:'Sangat Paham',2:'Lumayan',3:'Masih Bingung'}[feel],saran:$('#r4').value});thanks()};
+}
+
+function thanks(){
+ jingle();
+ const rb=`<svg viewBox="0 0 120 64" width="130" style="display:block;margin:0 auto -6px"><g fill="none" stroke-width="10" stroke-linecap="round"><path d="M12 58a48 48 0 0 1 96 0" stroke="#c9604a"/><path d="M24 58a36 36 0 0 1 72 0" stroke="#f0a15e"/><path d="M36 58a24 24 0 0 1 48 0" stroke="#f7d37a"/></g></svg>`;
+ go(`<section class="page"><div class="hero" style="justify-content:flex-start;padding-top:50px"><div class="tc" style="background:linear-gradient(150deg,#ffe14d,#ff7eb6);--br:#5a1040;width:100%">
+ <span class="sp" style="top:14px;left:18px">🌟</span><span class="sp" style="top:26px;right:20px;animation-delay:.5s">🎉</span><span class="sp" style="bottom:120px;right:14px;animation-delay:1s">✨</span><span class="sp" style="bottom:140px;left:14px;animation-delay:1.4s">💖</span>
+ ${rb}${mascot('love',BUDS[1],'sm')}<h2>Kerja Bagus, ${esc(name)}!</h2>
+ <div class="mo" style="font-size:22px;line-height:1.25">Terima kasih sudah berjuang dan belajar dengan hebat hari ini. Selamat istirahat, kamu luar biasa! 🌟</div></div></div>
+ <div class="sheet"><button class="btn b2" id="bk" style="margin-top:0"><i>🏠</i>Kembali ke Beranda</button></div></section>`);
+ $('#bk').onclick=()=>{name='';home()};
+}
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+let ac,on=false,timer,step=0;
+const mel=[523,587,659,784,659,587,523,392,440,523,587,659,587,523,440,392,523,659,784,880,784,659,587,523,587,659,523,587,523,440,392,392];
+const bass=[262,262,330,330,220,220,294,294];
+function tone(f,t,d,type,v){const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(ac.destination);o.start(t);o.stop(t+d+.05)}
+function tick(){if(!on)return;const t=ac.currentTime;tone(mel[step%mel.length],t,.35,'triangle',.09);if(step%4===0)tone(bass[(step/4|0)%bass.length]/2,t,.9,'sine',.12);step++;timer=setTimeout(tick,300)}
+function startAudio(){if(on)return;try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();ac.resume();on=true;tick();$('#mus').textContent='🎵'}catch(e){}}
+function blip(f){if(!ac)return;const t=ac.currentTime;tone(f,t,.15,'sine',.12);tone(f*1.5,t+.07,.18,'sine',.1)}
+function jingle(){if(!ac)return;const t=ac.currentTime;[523,659,784,1047].forEach((f,i)=>tone(f,t+i*.12,.4,'triangle',.14))}
+$('#mus').onclick=()=>{try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();ac.resume()}catch(e){}
+ if(on){on=false;clearTimeout(timer);$('#mus').textContent='🔇'}else{on=true;tick();$('#mus').textContent='🎵'}};
+home();
+</script>
+</body>
+</html>
